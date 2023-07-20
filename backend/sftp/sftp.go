@@ -27,7 +27,7 @@ import (
 	"github.com/rclone/rclone/fs/config/configmap"
 	"github.com/rclone/rclone/fs/config/configstruct"
 	"github.com/rclone/rclone/fs/config/obscure"
-	"github.com/rclone/rclone/fs/fshttp"
+	"github.com/rclone/rclone/fs/dialer"
 	"github.com/rclone/rclone/fs/hash"
 	"github.com/rclone/rclone/lib/env"
 	"github.com/rclone/rclone/lib/pacer"
@@ -467,8 +467,7 @@ type Object struct {
 // convenience function that connects to the given network address,
 // initiates the SSH handshake, and then sets up a Client.
 func (f *Fs) dial(ctx context.Context, network, addr string, sshConfig *ssh.ClientConfig) (*ssh.Client, error) {
-	dialer := fshttp.NewDialer(ctx)
-	conn, err := dialer.Dial(network, addr)
+	conn, err := dialer.NewDialer(ctx).Dial(network, addr)
 	if err != nil {
 		return nil, err
 	}

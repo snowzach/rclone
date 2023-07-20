@@ -145,8 +145,9 @@ type ConfigInfo struct {
 	Metadata                   bool
 	ServerSideAcrossConfigs    bool
 	TerminalColorMode          TerminalColorMode
-	DefaultTime                Time // time that directories with no time should display
-	Inplace                    bool // Download directly to destination file instead of atomic download to temp/rename
+	DefaultTime                Time   // time that directories with no time should display
+	Inplace                    bool   // Download directly to destination file instead of atomic download to temp/rename
+	Socks5Proxy                string // Allows setting a socks5 proxy
 }
 
 // NewConfig creates a new config with everything set to the default

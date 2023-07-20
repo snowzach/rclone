@@ -11,15 +11,14 @@ import (
 	"github.com/rclone/rclone/fs"
 	"github.com/rclone/rclone/fs/accounting"
 	"github.com/rclone/rclone/fs/config/obscure"
-	"github.com/rclone/rclone/fs/fshttp"
+	"github.com/rclone/rclone/fs/dialer"
 )
 
 // dial starts a client connection to the given SMB server. It is a
 // convenience function that connects to the given network address,
 // initiates the SMB handshake, and then sets up a Client.
 func (f *Fs) dial(ctx context.Context, network, addr string) (*conn, error) {
-	dialer := fshttp.NewDialer(ctx)
-	tconn, err := dialer.Dial(network, addr)
+	tconn, err := dialer.NewDialer(ctx).Dial(network, addr)
 	if err != nil {
 		return nil, err
 	}

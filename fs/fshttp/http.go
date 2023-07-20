@@ -17,6 +17,7 @@ import (
 
 	"github.com/rclone/rclone/fs"
 	"github.com/rclone/rclone/fs/accounting"
+	"github.com/rclone/rclone/fs/dialer"
 	"github.com/rclone/rclone/lib/structs"
 	"golang.org/x/net/publicsuffix"
 )
@@ -92,7 +93,7 @@ func NewTransportCustom(ctx context.Context, customize func(*http.Transport)) ht
 
 	t.DisableCompression = ci.NoGzip
 	t.DialContext = func(ctx context.Context, network, addr string) (net.Conn, error) {
-		return dialContext(ctx, network, addr, ci)
+		return dialer.NewDialer(ctx).DialContext(ctx, network, addr)
 	}
 	t.IdleConnTimeout = 60 * time.Second
 	t.ExpectContinueTimeout = ci.ExpectContinueTimeout

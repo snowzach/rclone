@@ -22,8 +22,8 @@ import (
 	"github.com/rclone/rclone/fs/config/configmap"
 	"github.com/rclone/rclone/fs/config/configstruct"
 	"github.com/rclone/rclone/fs/config/obscure"
+	"github.com/rclone/rclone/fs/dialer"
 	"github.com/rclone/rclone/fs/fserrors"
-	"github.com/rclone/rclone/fs/fshttp"
 	"github.com/rclone/rclone/fs/hash"
 	"github.com/rclone/rclone/lib/encoder"
 	"github.com/rclone/rclone/lib/env"
@@ -359,7 +359,7 @@ func (f *Fs) ftpConnection(ctx context.Context) (c *ftp.ServerConn, err error) {
 		defer func() {
 			fs.Debugf(f, "> dial: conn=%T, err=%v", conn, err)
 		}()
-		conn, err = fshttp.NewDialer(ctx).Dial(network, address)
+		conn, err = dialer.NewDialer(ctx).Dial(network, address)
 		if err != nil {
 			return nil, err
 		}
